@@ -23,10 +23,10 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
-# CORS — in production, replace "*" with your frontend domain
+# CORS — in production, replace with your frontend domain via environment variables
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=settings.CORS_ORIGINS,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

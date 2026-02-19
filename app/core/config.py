@@ -6,6 +6,9 @@ class Settings(BaseSettings):
     API_V1_STR: str = "/api/v1"
     SECRET_KEY: str = "changethis"
 
+    # CORS
+    CORS_ORIGINS: list[str] = ["http://localhost:3000"]
+
     # Database (Neon)
     DATABASE_URL: str = ""
 
