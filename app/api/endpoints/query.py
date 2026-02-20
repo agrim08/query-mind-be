@@ -22,7 +22,8 @@ router = APIRouter()
 
 
 def _sse(payload: dict) -> str:
-    return f"data: {json.dumps(payload)}\n\n"
+    # Use default=str to handle non-serializable types like datetime, date, UUID
+    return f"data: {json.dumps(payload, default=str)}\n\n"
 
 
 @router.post("/")
