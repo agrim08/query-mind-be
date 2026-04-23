@@ -49,4 +49,7 @@ The intelligence layer of QueryMind, built for scale, security, and precision. T
 
 1. Install dependencies: `pip install -r requirements.txt`
 2. Configure `.env` with your API keys.
-3. Start the dev server: `fastapi dev app/main.py`
+3. Start the dev server:
+   ```bash
+   uvicorn app.main:app --host 127.0.0.1 --port 8000 --reload
+   ```

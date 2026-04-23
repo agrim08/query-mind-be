@@ -11,7 +11,7 @@ from sqlalchemy import (
     Text,
     func,
 )
-from sqlalchemy.dialects.postgresql import UUID
+from sqlalchemy.dialects.postgresql import UUID, JSONB
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.db.session import Base
@@ -39,6 +39,9 @@ class User(Base):
         back_populates="user", cascade="all, delete-orphan"
     )
     query_logs: Mapped[list["QueryLog"]] = relationship(
+        back_populates="user", cascade="all, delete-orphan"
+    )
+    design_logs: Mapped[list["DesignLog"]] = relationship(
         back_populates="user", cascade="all, delete-orphan"
     )
 
@@ -92,3 +95,21 @@ class QueryLog(Base):
 
     user: Mapped["User"] = relationship(back_populates="query_logs")
     connection: Mapped["DBConnection"] = relationship(back_populates="query_logs")
+
+
+class DesignLog(Base):
+    __tablename__ = "design_logs"
+
+    id: Mapped[uuid.UUID] = mapped_column(
+        UUID(as_uuid=True), primary_key=True, default=uuid.uuid4
+    )
+    user_id: Mapped[uuid.UUID] = mapped_column(
+        UUID(as_uuid=True), ForeignKey("users.id", ondelete="CASCADE"), nullable=False
+    )
+    prompt: Mapped[str] = mapped_column(Text, nullable=False)
+    schema_json: Mapped[dict] = mapped_column(JSONB, nullable=False)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), server_default=func.now()
+    )
+
+    user: Mapped["User"] = relationship(back_populates="design_logs")

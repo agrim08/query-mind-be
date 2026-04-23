@@ -4,7 +4,7 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.api.endpoints import auth, connections, query
+from app.api.endpoints import auth, connections, query, design
 from app.core.config import settings
 
 
@@ -40,6 +40,7 @@ app.include_router(
     tags=["connections"],
 )
 app.include_router(query.router, prefix=f"{settings.API_V1_STR}/query", tags=["query"])
+app.include_router(design.router, prefix=f"{settings.API_V1_STR}/design", tags=["design"])
 
 
 @app.get("/", tags=["health"])
